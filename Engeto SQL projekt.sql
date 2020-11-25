@@ -41,7 +41,7 @@ sum(case when religion = 'Buddhism' then population else 0 end) as Buddhism,
 sum(case when religion = 'Folk Religions' then population else 0 end) as Folk_religions,
 sum(case when religion = 'Other Religions' then population else 0 end) as Other_religions,
 sum(case when religion = 'Judaism' then population else 0 end) as Judaism
-from religions r where year = 2020 group by country) rbase 
+from religions r where year = 2020 and population != 0 group by country) rbase 
 JOIN 
 (select country, sum(population) as total_population from religions r2 where year = 2020 group by country) r1 
 on rbase.country = r1.country
