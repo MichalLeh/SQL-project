@@ -1,23 +1,23 @@
 # COUNTRIES TABLE
 Create table t_michal_lehuta_SQLprojekt_Countries as
 select ctr.country, ec.population, ec.GDP_per_head, ctr.population_density, ctr.median_age_2018, ec2.mortaliy_under5, ec3.gini, 
-# life_exp_diff - rozdíl mezi oèekávanou dobou doití v roce 1965 a v roce 2015
+# life_exp_diff - rozdÃ­l mezi oÃ¨ekÃ¡vanou dobou doÅ¾itÃ­ v roce 1965 a v roce 2015
 (le.life_exp2015-le2.life_exp1965) as life_exp_diff
 from 
 (select country, population_density, median_age_2018, capital_city from countries) ctr 
 join
-# GDP_per_head - HDP na obyvatele; inner join nezahrnuje pouze stát Sırii
+# GDP_per_head - HDP na obyvatele; inner join nezahrnuje pouze stÃ¡t SÃ½rii
 (select country, population, round(GDP/population, 2) as GDP_per_head from economies where GDP is not Null group by country) ec 
 on ctr.country = ec.country
 join 
-# dìtská úmrtnost
+# dÃ¬tskÃ¡ Ãºmrtnost
 (select country, mortaliy_under5, max(year) from economies e2 where mortaliy_under5 is not Null group by country) ec2
 on ctr.country = ec2.country
 left join 
-# Gini koeficient; inner join vynechá státy jako: Afghanistan, New Zealand, Saudi Arabia, Cuba, Singapore, Libya atd... a zároveò nemají Null hodnotu v ostatních zkoumanıch promìnnıch
+# Gini koeficient; inner join vynechÃ¡ stÃ¡ty jako: Afghanistan, New Zealand, Saudi Arabia, Cuba, Singapore, Libya atd...
 (select country, gini, max(year) from economies where gini is not Null group by country) ec3
 on ctr.country = ec3.country
-# left join zahrnuje rovnì Russian Federation (144 mil. obyvatel)
+# left join zahrnuje rovnÃ¬Å¾ Russian Federation (144 mil. obyvatel)
 left join 
 (select country, life_expectancy as life_exp2015 from life_expectancy where year = 2015) le
 on ctr.country = le.country 
@@ -25,7 +25,7 @@ join
 (select country, life_expectancy as life_exp1965 from life_expectancy where year = 1965) le2 
 on le.country = le2.country order by ec3.gini desc
 
-# RELIGION TABLE - podíl jednotlivıch náboenství na celkovém obyvatelstvu
+# RELIGION TABLE - podÃ­l jednotlivÃ½ch nÃ¡boÅ¾enstvÃ­ na celkovÃ©m obyvatelstvu
 Create table t_michal_lehuta_SQLprojekt_Religions as
 select rbase.country, rbase.population, 
 round(rbase.Christianity/r1.total_population*100, 2) as Christianity, round(rbase.Islam/r1.total_population*100, 2) as Islam, round(rbase.Unaffiliated_religions/r1.total_population*100, 2) as Unaffiliated_religions,
@@ -60,20 +60,20 @@ select w1.city, w1.date, w2.binary_day, w2.season_code, w2.daily_avg_temp, w3.co
 (select city, date from weather group by city, date) w1
 left join
 (select city, date,
-# binární promìnná pro víkend = 1, pracovní den = 0
+# binÃ¡rnÃ­ promÃ¬nnÃ¡ pro vÃ­kend = 1, pracovnÃ­ den = 0
 case when dayname(date) in ('Sunday', 'Saturday') then 1 else 0 end as binary_day, 
-# roèní období daného dne jaro = 0, léto = 1, podzim = 2, zima = 3
+# roÃ¨nÃ­ obdobÃ­ danÃ©ho dne jaro = 0, lÃ©to = 1, podzim = 2, zima = 3
 case when month(date) in (12, 1, 2) then 3
      when month(date) in (3, 4, 5) then 0
      when month(date) in (6, 7, 8) then 1 else 2 end as season_code,
-# daily_avg_temp - prùmìrná denní teplota byla poèítána jako prùmìr teplot mezi 6 - 18 hodinou 
+# daily_avg_temp - prÃ¹mÃ¬rnÃ¡ dennÃ­ teplota byla poÃ¨Ã­tÃ¡na jako prÃ¹mÃ¬r teplot mezi 6 - 18 hodinou 
 avg(temp) as daily_avg_temp from weather where hour in (6, 9, 12, 15, 18) group by date, city) w2
 on w1.date = w2.date and w1.city = w2.city
 left join
-# count_zero_rain - poèet hodin v daném dni, kdy byly sráky nenulové
+# count_zero_rain - poÃ¨et hodin v danÃ©m dni, kdy byly srÃ¡Å¾ky nenulovÃ©
 (select city, date, count(rain) as count_zero_rain from weather where rain != 0 group by city, date) w3 
 on w1.date = w3.date and w1.city = w3.city
 left join
-# max_day_wind - maximální síla vìtru v nárazech bìhem dne
+# max_day_wind - maximÃ¡lnÃ­ sÃ­la vÃ¬tru v nÃ¡razech bÃ¬hem dne
 (select city, date, max(wind) as max_day_wind from weather group by city, date) w4 
 on w2.date = w4.date and w1.city = w4.city
