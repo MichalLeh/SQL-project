@@ -1,6 +1,5 @@
 # COUNTRIES TABLE
-Create table t_michal_lehuta_SQLprojekt_Countries as
-select ctr.country, ec.population, ec.GDP_per_head, ctr.population_density, ctr.median_age_2018, ec2.mortaliy_under5, ec3.gini, 
+select ctr.country, ec.population, ec.GDP_per_head, ctr.population_density, ctr.median_age_2018, ec2.mortaliy_under5, ec3.gini, ctr.capital_city,
 # life_exp_diff - rozdíl mezi oèekávanou dobou dožití v roce 1965 a v roce 2015
 (le.life_exp2015-le2.life_exp1965) as life_exp_diff
 from 
@@ -26,7 +25,6 @@ join
 on le.country = le2.country order by ec3.gini desc
 
 # RELIGION TABLE - podíl jednotlivých náboženství na celkovém obyvatelstvu
-Create table t_michal_lehuta_SQLprojekt_Religions as
 select rbase.country, rbase.population, 
 round(rbase.Christianity/r1.total_population*100, 2) as Christianity, round(rbase.Islam/r1.total_population*100, 2) as Islam, round(rbase.Unaffiliated_religions/r1.total_population*100, 2) as Unaffiliated_religions,
 round(rbase.Hinduism/r1.total_population*100, 2) as Hinduism, round(rbase.Buddhism/r1.total_population*100, 2) as Buddhism, round(rbase.Folk_religions/r1.total_population*100, 2) as Folk_religions,
@@ -47,7 +45,6 @@ JOIN
 on rbase.country = r1.country
 
 # COVID TABLE
-Create table t_michal_lehuta_SQLprojekt_Covid19 as
 select cbd.date, cbd.country, cbd.confirmed, ct.tests_performed from 
 (select date, country, confirmed from covid19_basic_differences group by date, country) cbd 
 join
@@ -55,7 +52,6 @@ join
 on cbd.country = ct.country and cbd.date = ct.date 
 
 # WEATHER TABLE
-Create table t_michal_lehuta_SQLprojekt_Weather as
 select w1.city, w1.date, w2.binary_day, w2.season_code, w2.daily_avg_temp, w3.count_zero_rain, w4.max_day_wind from 
 (select city, date from weather group by city, date) w1
 left join
