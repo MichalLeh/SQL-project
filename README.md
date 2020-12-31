@@ -22,4 +22,5 @@ Výsledná data budou panelová, klíče budou stát (country) a den (date). Bud
 - průměrná denní (mezi 6-18 hod.) teplota (daily_avg_temp)
 - počet hodin v daném dni, kdy byly srážky nenulové (count_rain_hours)
 - maximální síla větru v nárazech během dne (max_day_wind)
+
 Data jsou čerpána z tabulek: countries, economies, life_expectancy, religions, covid19_basic_differences, covid19_tests, weather, lookup_table, viz. složka SQL-project/Data/
