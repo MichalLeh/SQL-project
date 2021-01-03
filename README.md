@@ -4,8 +4,7 @@ Engeto SQL projekt:
 
 Cílem Engeto SQL projektu bylo vytvořit tabulku faktorů, které ovlivňují rychlost šíření koronaviru na úrovni jednotlivých států.
 
-Výsledná data budou panelová, klíče budou stát (country) a den (date). Budu vyhodnocovat model, který bude vysvětlovat denní nárůsty nakažených v jednotlivých zemích. Samotné počty nakažených mi nicméně nejsou nic platné - je potřeba vzít v úvahu také počty provedených testů a počet obyvatel daného státu. Z těchto tří proměnných je potom možné vytvořit vhodnou vysvětlovanou proměnnou. Denní počty nakažených chci vysvětlovat pomocí proměnných několika typů. Každý sloupec v tabulce bude představovat jednu proměnnou. Chceme získat následující sloupce:
-
+Výsledná data budou panelová, klíče budou stát (country) a den (date). Každý sloupec v tabulce bude představovat jednu proměnnou. Úkolem je získat následující sloupce:
 
 1. Časové proměnné
 - binární proměnná pro víkend / pracovní den (binary_day)
