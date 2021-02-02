@@ -1,7 +1,5 @@
 # SQL-project
 
-Engeto SQL projekt:
-
 Cílem Engeto SQL projektu bylo vytvořit tabulku faktorů, které ovlivňují rychlost šíření koronaviru na úrovni jednotlivých států.
 
 Výsledná data budou panelová, klíče budou stát (country) a den (date). Každý sloupec v tabulce bude představovat jednu proměnnou. Úkolem je získat následující sloupce:
